@@ -1,5 +1,6 @@
 import {
   createUserWithEmailAndPassword,
+  getIdTokenResult,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
@@ -13,6 +14,7 @@ export interface UserProfile {
   email: string;
   username: string;
   position: 'admin' | 'user' | 'loot_mapper';
+  role?: 'admin' | 'user' | 'loot_mapper';
   price: number;
   avatar?: string;
   phone?: string;
@@ -155,6 +157,19 @@ export const isUserAdmin = async (uid: string): Promise<boolean> => {
   }
 };
 
+export const getCurrentUserClaimRole = async (): Promise<'admin' | 'user' | 'loot_mapper' | null> => {
+  try {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return null;
+
+    const tokenResult = await getIdTokenResult(currentUser, true);
+    const claimRole = tokenResult.claims.role;
+    return claimRole === 'admin' || claimRole === 'user' || claimRole === 'loot_mapper' ? claimRole : null;
+  } catch (error) {
+    return null;
+  }
+};
+
 export default {
   registerUser,
   loginUser,
@@ -162,4 +177,5 @@ export default {
   getCurrentUserProfile,
   updateUserProfile,
   isUserAdmin,
+  getCurrentUserClaimRole,
 };

@@ -4,6 +4,7 @@ import MainLayout from '../components/Layout/MainLayout';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
+import AdminDashboard from '../pages/Admin/AdminDashboard';
 import ProtectedRoute from '../components/ProtectedRoute';
 import { gameNavigation } from './routes';
 
@@ -45,6 +46,8 @@ export type AppRouteItem = {
 
 export const appRoutes: AppRouteItem[] = [
   { path: '/', element: <Navigate to="/hi3/home" replace /> },
+  // Redirect truy cập trực tiếp /admin về game mặc định
+  { path: '/admin', element: <Navigate to="/hi3/admin" replace /> },
   {
     path: '/:gameId',
     element: <MainLayout />,
@@ -68,7 +71,14 @@ export const appRoutes: AppRouteItem[] = [
               {
                 element: <ProtectedRoute requiredRole="admin" />,
                 children: [
-                  { path: 'admin', element: <PlaceholderPage title="Admin Dashboard" subtitle="Quan ly toan bo (placeholder)" /> },
+                  { 
+                    path: 'admin', 
+                    element: <AdminDashboard />,
+                    children: [
+                      { path: 'builds', element: <PlaceholderPage title="Manage Builds" subtitle="Danh sách & Chỉnh sửa bài build" /> },
+                      { path: 'accounts', element: <PlaceholderPage title="Manage Accounts" subtitle="Quản lý kho acc" /> }
+                    ]
+                  },
                 ],
               },
             ],

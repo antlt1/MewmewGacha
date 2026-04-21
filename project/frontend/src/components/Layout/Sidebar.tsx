@@ -3,6 +3,7 @@ import type { ChangeEvent } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { gameNavigation } from '../../router/routes';
 import { useAuthStore } from '../../store/authStore';
+import storeimg from '../../assets/genshin/img/character/storeimg';
 
 type SidebarProps = {
   isOpen: boolean;
@@ -44,7 +45,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         <div className="flex items-center justify-between p-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full shadow-lg overflow-hidden relative">
-              <img src="https://i.imgur.com/k2RtzcQ.png" alt="Logo" className="w-full h-full object-cover" />
+              <img src={storeimg[95].image_avt} alt="Logo" className="w-full h-full object-cover" />
             </div>
             <span className="font-bold text-xl text-white">
               <span className="text-[#a855f7]">MewMew</span> Gacha
